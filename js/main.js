@@ -112,6 +112,7 @@ export default class Main{
         this.current = squareFactory.product()
         // 获取下一个方块
         this.next = squareFactory.product()
+        this.clearGameData()
         // 渲染游戏界面
         let clearLine = this.bg.render(ctx, this.gameData)
         // 计算分数
@@ -324,7 +325,7 @@ export default class Main{
                 if( this.databus.maxScore < this.databus.score ) {
                     this.databus.setHighestScore( this.databus.score )
                 } 
-                
+
                 return true
             }
         }
