@@ -1,6 +1,7 @@
 # 微信小游戏——俄罗斯方块
 
 ## 文件目录
+```
 js
  |-base
     |_sprite.js （没有用到）
@@ -17,6 +18,7 @@ js
 game.js
 game.json
 project.config.json
+```
 
 ## 开发流程
 ### 确定游戏开发流程
