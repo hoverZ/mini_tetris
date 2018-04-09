@@ -47,32 +47,43 @@ export default class Main{
         // 游戏开始
         this.start()
         this.touchMove = []
-        // 定时清除手势触碰点
-        this.intervalClearTouchMove = setInterval(() => {
-            this.touchMove = []
-        }, 500)
+        // // 定时清除手势触碰点
+        // this.intervalClearTouchMove = setInterval(() => {
+        //     this.touchMove = []
+        // }, 500)
         wx.onTouchStart( (data) => {
             this.touchStartEvent(data.touches[0])
         })
+        wx.onTouchEnd( (data) => {
+            if(this.touchMove.length < 2){
+                return
+            }
+            let first = this.touchMove[0]
+            let end = this.touchMove[this.touchMove.length - 1]
+            if( end.screenY - first.screenY > 100){
+                this.fall()
+            }
+            this.touchMove = []
+        })
         wx.onTouchMove( (data) => {
-            this.touchMoveEvent( data.touches )
+            this.touchMove = this.touchMove.concat(data.touches[0])
         })
 
     }
 
-    /**
-     * 手势（只捕捉了向下手势）
-     * 当第一个触摸点与最后一个触摸点高度差为 100 时，触发向下操作
-     * @param {事件捕捉的点} touches 
-     */
-    touchMoveEvent( touches ){
-        this.touchMove = this.touchMove.concat(touches[0])
-        let first = this.touchMove[0]
-        let end = this.touchMove[this.touchMove.length - 1]
-        if( end.screenY - first.screenY > 100){
-            this.fall()
-        }
-    }
+    // /**
+    //  * 手势（只捕捉了向下手势）
+    //  * 当第一个触摸点与最后一个触摸点高度差为 100 时，触发向下操作
+    //  * @param {事件捕捉的点} touches 
+    //  */
+    // touchMoveEvent( touches ){
+        
+    //     // let first = this.touchMove[0]
+    //     // let end = this.touchMove[this.touchMove.length - 1]
+    //     // if( end.screenY - first.screenY > 100){
+    //     //     this.fall()
+    //     // }
+    // }
 
     /**
      * 触摸事件回调
