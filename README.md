@@ -108,20 +108,27 @@ project.config.json
         }
     }
 ```
-wx.onTouchMove: 用于方块坠落（使用下滑手势触发）
+wx.onTouchMove, wx.onTouchEnd: 用于方块坠落（使用下滑手势触发）
 规则：
+    
     判断 this.touchMove 中第一个点和最后一个点的 y 坐标差
-    这里有一点需要注意的是下滑操作时间，这里粗糙的以每 500ms 清一次 this.touchMove 方式处理
 ```
-    touchMoveEvent( touches ){
-        this.touchMove = this.touchMove.concat(touches[0])
+    wx.onTouchEnd( (data) => {
+        if(this.touchMove.length < 2){
+            return
+        }
         let first = this.touchMove[0]
         let end = this.touchMove[this.touchMove.length - 1]
         if( end.screenY - first.screenY > 100){
             this.fall()
         }
-    }
+        this.touchMove = []
+    })
+    wx.onTouchMove( (data) => {
+        this.touchMove = this.touchMove.concat(data.touches[0])
+    })
 ```
+   
 ### 确定下一个方块入场规则
 当方块无法下移的时候为下移方块入场
 ### 确定方块消除规则
